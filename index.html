@@ -1,0 +1,392 @@
+<!doctype html>
+<!--[if lt IE 7 ]> <html lang="en" class="ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class=""> <!--<![endif]-->
+
+<head>
+	<script type="text/javascript" src="extras/jquery.min.1.7.js"></script>
+	<script type="text/javascript" src="extras/jquery-ui-1.8.20.custom.min.js"></script>
+	<script type="text/javascript" src="extras/jquery.mousewheel.min.js"></script>
+	<script type="text/javascript" src="extras/modernizr.2.5.3.min.js"></script>
+	<script type="text/javascript" src="lib/hash.js"></script>
+	<style>
+		.index-container {
+			display: flex;
+			max-width: 480px;
+			width: 100%;
+			height: 100%;
+			flex-direction: column;
+			align-items: center;
+			color: #000;
+			font-weight: 400;
+			margin: 0 auto;
+			justify-content: space-around;
+		}
+
+		.index-title {
+			font-size: 30px;
+			font-weight: 700;
+			line-height: 1.2;
+			letter-spacing: -0.8px;
+			margin: 0;
+		}
+
+		.index-content {
+			font-size: 22px;
+			line-height: 22px;
+			text-align: center;
+			align-self: stretch;
+			width: 100%;
+			font-size: 12px;
+			font-family: 'jmhfont', sans-serif;
+		}
+
+		.index-content ul {
+			margin: 0;
+			padding: 0;
+		}
+
+		.index-content li {
+			list-style: none;
+		}
+
+		.index-page-number {
+			font-size: 16px;
+			line-height: 1;
+			letter-spacing: -0.12px;
+			margin: 30px 0 0 22px;
+		}
+
+		@media (max-width: 991px) {
+			.index-content {
+				max-width: 100%;
+				margin-top: 40px;
+			}
+
+			.index-page-number {
+				margin-top: 40px;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div id="canvas">
+		<div id="book-zoom">
+			<div class="sample-docs">
+				<div class="hard"></div>
+				<div class="hard"></div>
+				<div class="bgCOlor" id="flipbook">
+
+					<section class="index-container">
+						<h1 class="index-title">Index</h1>
+						<nav class="index-content">
+							<ul>
+								<li>Where books come to life</li>
+								<li>Culture</li>
+								<li>Normalized problems</li>
+								<li>Game-changer solutions</li>
+								<li>Industry paradigm shifts</li>
+								<li>Market opportunity</li>
+								<li>Product market fit DEMO</li>
+								<li>Business model</li>
+								<li>Users revenue streams</li>
+								<li>Financial projection 2035</li>
+								<li>Competitive advantages and collaborators</li>
+								<li>Technology and roadmap</li>
+								<li>Dream team</li>
+								<li>Traction</li>
+								<li>Magickeys: funding and use of funds</li>
+								<li>Distribution and adoption milestones</li>
+								<li>Ask yourself</li>
+								<li>Monopoly: market domination</li>
+								<li>Thank you</li>
+							</ul>
+						</nav>
+						<footer class="index-page-number">314</footer>
+					</section>
+				</div>
+				<div class="bgCOlor1" id="flipbook">
+					<div>
+						<h1>Helo</h1>
+					</div>
+				</div>
+				<div class="bgCOlor" id="flipbook">
+					<div>
+						<h1>Helo</h1>
+					</div>
+				</div>
+				<div class="bgCOlor1" id="flipbook">
+					<div>
+						<h1>Helo</h1>
+					</div>
+				</div>
+				<div class="bgCOlor" id="flipbook">
+					<div>
+						<h1>Helo</h1>
+					</div>
+				</div>
+				<div class="bgCOlor1" id="flipbook">
+					<div>
+						<h1>Helo</h1>
+					</div>
+				</div>
+				<div class="bgCOlor" id="flipbook">
+					<div>
+						<h1>Helo</h1>
+					</div>
+				</div>
+				<div class="hard p9"></div>
+				<div class="hard p10"></div>
+			</div>
+		</div>
+
+
+		<!-- <div id="slider-bar" class="turnjs-slider">
+			<div id="slider"></div>
+		</div> -->
+	</div>
+
+
+	<script type="text/javascript">
+
+		function loadApp() {
+
+			var flipbook = $('.sample-docs');
+
+			// Check if the CSS was already loaded
+
+			if (flipbook.width() == 0 || flipbook.height() == 0) {
+				setTimeout(loadApp, 10);
+				return;
+			}
+
+			// Mousewheel
+
+			$('#book-zoom').mousewheel(function (event, delta, deltaX, deltaY) {
+
+				var data = $(this).data(),
+					step = 8,
+					flipbook = $('.sample-docs'),
+					actualPos = $('#slider').slider('value') * step;
+
+				if (typeof (data.scrollX) === 'undefined') {
+					data.scrollX = actualPos;
+					data.scrollPage = flipbook.turn('page');
+				}
+
+				data.scrollX = Math.min($("#slider").slider('option', 'max') * step,
+					Math.max(0, data.scrollX + deltaX));
+
+				var actualView = Math.round(data.scrollX / step),
+					page = Math.min(flipbook.turn('pages'), Math.max(1, actualView * 2 - 2));
+
+				if ($.inArray(data.scrollPage, flipbook.turn('view', page)) == -1) {
+					data.scrollPage = page;
+					flipbook.turn('page', page);
+				}
+
+				if (data.scrollTimer)
+					clearInterval(data.scrollTimer);
+
+				data.scrollTimer = setTimeout(function () {
+					data.scrollX = undefined;
+					data.scrollPage = undefined;
+					data.scrollTimer = undefined;
+				}, 1000);
+
+			});
+
+			// Slider
+
+			$("#slider").slider({
+				min: 1,
+				max: 100,
+
+				start: function (event, ui) {
+					if (!window._thumbPreview) {
+						_thumbPreview = $('<div />', { 'class': 'thumbnail' }).html('<div></div>');
+						setPreview(ui.value);
+						_thumbPreview.appendTo($(ui.handle));
+					} else
+						setPreview(ui.value);
+
+					moveBar(false);
+				},
+
+				slide: function (event, ui) {
+					setPreview(ui.value);
+				},
+
+				stop: function () {
+					if (window._thumbPreview)
+						_thumbPreview.removeClass('show');
+
+					$('.sample-docs').turn('page', Math.max(1, $(this).slider('value') * 2 - 2));
+				}
+			});
+
+
+			// URIs
+
+			Hash.on('^page\/([0-9]*)$', {
+				yep: function (path, parts) {
+					var page = parts[1];
+
+					if (page !== undefined) {
+						if ($('.sample-docs').turn('is'))
+							$('.sample-docs').turn('page', page);
+					}
+
+				},
+				nop: function (path) {
+
+					if ($('.sample-docs').turn('is'))
+						$('.sample-docs').turn('page', 1);
+				}
+			});
+
+			// Arrows
+
+			$(document).keydown(function (e) {
+
+				var previous = 37, next = 39;
+
+				switch (e.keyCode) {
+					case previous:
+
+						$('.sample-docs').turn('previous');
+
+						break;
+					case next:
+
+						$('.sample-docs').turn('next');
+
+						break;
+				}
+
+			});
+
+			// Create the flipbook
+
+			flipbook.turn({
+				elevation: 50,
+				acceleration: false,
+				gradients: true,
+				autoCenter: true,
+				duration: 1000,
+				pages: 10,
+				when: {
+
+					turning: function (e, page, view) {
+						var book = $(this),
+							currentPage = book.turn('page'),
+							pages = book.turn('pages');
+
+						// Always show page 1 & 2, and 9 & 10
+						if (page == 1 || page == 2 || page == pages - 1 || page == pages) {
+							return; // Do nothing, allow these pages to stay visible
+						}
+
+						// Existing logic for turning other pages
+						if (currentPage > 3 && currentPage < pages - 3) {
+							if (page == 1) {
+								book.turn('page', 2).turn('stop').turn('page', page);
+								e.preventDefault();
+								return;
+							} else if (page == pages) {
+								book.turn('page', pages - 1).turn('stop').turn('page', page);
+								e.preventDefault();
+								return;
+							}
+						} else if (page > 3 && page < pages - 3) {
+							if (currentPage == 1) {
+								book.turn('page', 2).turn('stop').turn('page', page);
+								e.preventDefault();
+								return;
+							} else if (currentPage == pages) {
+								book.turn('page', pages - 1).turn('stop').turn('page', page);
+								e.preventDefault();
+								return;
+							}
+						}
+
+						Hash.go('page/' + page).update();
+					},
+
+					turned: function (e, page, view) {
+						var book = $(this);
+						// Ensure slider gets the correct page value
+						$('#slider').slider('value', getViewNumber(book, page));
+
+						// Logic to ensure 1 & 2 and 9 & 10 are always visible
+						var pages = book.turn('pages');
+						if (page == 1 || page == pages) {
+							$('.sample-docs .tabs').hide();
+						} else {
+							$('.sample-docs .tabs').fadeIn(500);
+						}
+
+						book.turn('center');
+						updateTabs();
+					},
+
+					start: function (e, pageObj) {
+
+						moveBar(true);
+
+					},
+
+					end: function (e, pageObj) {
+
+						var book = $(this);
+
+						setTimeout(function () {
+							$('#slider').slider('value', getViewNumber(book));
+						}, 1);
+
+						moveBar(false);
+
+					},
+
+					missing: function (e, pages) {
+
+						for (var i = 0; i < pages.length; i++)
+							addPage(pages[i], $(this));
+
+					}
+				}
+			}).turn('page', 2);
+
+
+			$('#slider').slider('option', 'max', numberOfViews(flipbook));
+
+			flipbook.addClass('animated');
+
+
+			// Show canvas
+
+			$('#canvas').css({ visibility: 'visible' });
+		}
+
+		// Hide canvas
+
+		$('#canvas').css({ visibility: 'hidden' });
+
+		yepnope({
+			test: Modernizr.csstransforms,
+			yep: ['lib/turn.min.js', 'css/jquery.ui.css'],
+			nope: ['lib/turn.html4.min.js', 'css/jquery.ui.html4.css'],
+			both: ['css/docs.css', 'js/docs.js'],
+			complete: loadApp
+		});
+
+	</script>
+
+</body>
+
+</html>
